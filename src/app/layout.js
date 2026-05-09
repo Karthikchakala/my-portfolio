@@ -9,8 +9,41 @@ const outfit = Outfit({
 });
 
 export const metadata = {
-  title: "Karthik Chakala | Portfolio",
-  description: "Software Engineer Portfolio",
+  title: {
+    default: "Karthik Chakala | Software Engineer",
+    template: "%s — Karthik Chakala",
+  },
+  description:
+    "Backend-focused Full-Stack Engineer specializing in scalable systems, real-time APIs, and modern product experiences.",
+  keywords: [
+    "Karthik Chakala",
+    "Software Engineer",
+    "Full Stack Developer",
+    "Backend Engineer",
+    "Portfolio",
+    "React",
+    "Next.js",
+    "Node.js",
+  ],
+  authors: [{ name: "Karthik Chakala" }],
+  creator: "Karthik Chakala",
+  metadataBase: new URL("https://karthikchakala.dev"),
+  openGraph: {
+    title: "Karthik Chakala | Software Engineer",
+    description:
+      "Backend-focused Full-Stack Engineer specializing in scalable systems, real-time APIs, and modern product experiences.",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Karthik Chakala | Software Engineer",
+    description:
+      "Backend-focused Full-Stack Engineer specializing in scalable systems and modern product experiences.",
+  },
+  other: {
+    "theme-color": "#050505",
+  },
 };
 
 export default function RootLayout({ children }) {

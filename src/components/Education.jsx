@@ -4,25 +4,28 @@ import { motion } from "framer-motion";
 
 const education = [
     {
-        level: "Schooling",
+        level: "Foundations",
         degree: "Secondary Education",
-        institution: "Chaitanya Children’s Academy, B. Kothakota",
-        period: "Completed",
-        score: "Percentage: 96.8%",
+        institution: "Chaitanya Academy",
+        period: "2021",
+        score: "96.8%",
+        focus: "Mathematics & Science fundamentals"
     },
     {
-        level: "Intermediate",
-        degree: "MPC Stream",
-        institution: "Amaravathi Junior College, Vijayawada",
-        period: "Completed",
-        score: "JEE Percentile: 97.4%",
+        level: "Specialization",
+        degree: "Intermediate (MPC)",
+        institution: "Amaravathi College",
+        period: "2023",
+        score: "97.4 Percentile (JEE)",
+        focus: "Advanced Physics & Mathematics"
     },
     {
-        level: "College",
-        degree: "B.Tech in Computer Science & Engineering",
-        institution: "Indian Institute of Information Technology, Kurnool",
+        level: "Engineering",
+        degree: "B.Tech in CSE",
+        institution: "IIIT Kurnool",
         period: "2023–2027",
-        score: "CGPA: 8.4 / 10",
+        score: "8.4 CGPA",
+        focus: "Data Structures, Backend Systems, DBMS"
     },
 ];
 
@@ -99,6 +102,7 @@ export default function Education() {
                                     <div className="w-4 h-4 bg-black border-2 border-orange-500 rounded-full mb-2 relative z-10 group-hover:scale-150 transition-transform duration-300" />
                                     <h3 className="text-lg font-bold text-white leading-tight">{edu.degree}</h3>
                                     <p className="text-gray-400 text-sm mt-1">{edu.institution}</p>
+                                    <p className="text-blue-400 text-xs font-medium mt-1">{edu.focus}</p>
                                     <p className="text-orange-400 text-xs font-medium mt-1">{edu.score}</p>
                                     <p className="text-gray-600 text-xs mt-1">{edu.period}</p>
                                 </div>
@@ -117,6 +121,7 @@ export default function Education() {
                             </span>
                             <h3 className="text-xl font-bold text-white mb-1">{edu.degree}</h3>
                             <p className="text-gray-400 text-sm mb-1">{edu.institution}</p>
+                            <p className="text-blue-400 text-xs font-medium mb-1">{edu.focus}</p>
                             <div className="flex justify-between items-center mt-2">
                                 <span className="text-white font-medium text-sm">{edu.score}</span>
                                 <span className="text-gray-600 text-xs">{edu.period}</span>
