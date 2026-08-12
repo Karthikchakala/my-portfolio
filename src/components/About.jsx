@@ -7,8 +7,8 @@ export default function About() {
         <section id="about" className="py-20 bg-[#050505] relative overflow-hidden">
             {/* Background Text */}
             <div className="absolute top-1/2 -translate-y-1/2 right-0 w-full select-none pointer-events-none z-0">
-                <h1 className="text-[20vw] font-bold text-white/[0.02] text-right tracking-tighter leading-none pr-10">
-                    About
+                <h1 className="text-[20vw] font-bold text-white/[0.035] text-right tracking-tighter leading-none pr-10 uppercase">
+                    ABOUT
                 </h1>
             </div>
 

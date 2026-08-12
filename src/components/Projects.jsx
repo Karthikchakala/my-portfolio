@@ -259,6 +259,13 @@ export default function Projects() {
 
     return (
         <section id="projects" className="py-32 bg-[#050505] relative overflow-hidden">
+            {/* Background Text */}
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full select-none pointer-events-none z-0">
+                <h1 className="text-[18vw] font-bold text-white/[0.035] text-center tracking-tighter leading-none uppercase">
+                    PROJECTS
+                </h1>
+            </div>
+
             {/* Ambient Background */}
             <div className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none">
                 <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[150px]" />

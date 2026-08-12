@@ -54,7 +54,7 @@ export default function Services() {
         <section id="services" className="py-20 bg-[#050505] relative overflow-hidden">
             {/* Background Text */}
             <div className="absolute top-20 right-0 w-full select-none pointer-events-none z-0">
-                <h1 className="text-[15vw] font-bold text-white/[0.02] text-right tracking-wider leading-none pr-10">
+                <h1 className="text-[15vw] font-bold text-white/[0.035] text-right tracking-wider leading-none pr-10">
                     ENGINEER
                 </h1>
             </div>

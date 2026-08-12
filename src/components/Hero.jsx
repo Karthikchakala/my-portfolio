@@ -25,8 +25,8 @@ export default function Hero() {
         <section id="hero" className="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden bg-[#050505]">
             {/* Background Text & Premium Orbs */}
             <div className="absolute top-20 left-1/2 -translate-x-1/2 w-full select-none pointer-events-none z-0">
-                <h1 className="text-[12vw] font-bold text-white/[0.01] text-center tracking-[0.2em] leading-none mix-blend-overlay uppercase">
-                    Developer
+                <h1 className="text-[14vw] font-bold text-white/[0.035] text-center tracking-[0.15em] leading-none uppercase">
+                    DEVELOPER
                 </h1>
             </div>
             

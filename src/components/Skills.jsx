@@ -81,8 +81,8 @@ export default function Skills() {
             
             {/* Background Cinematic Text */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full select-none pointer-events-none z-0">
-                <h1 className="text-[20vw] font-bold text-white/[0.01] text-center tracking-tighter leading-none uppercase">
-                    Mastery
+                <h1 className="text-[20vw] font-bold text-white/[0.035] text-center tracking-tighter leading-none uppercase">
+                    SKILLS
                 </h1>
             </div>
 
