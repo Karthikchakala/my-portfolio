@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useScroll, useReducedMotion, AnimatePresence } from "framer-motion";
+import { useSectionParallax } from "../hooks/useParallax";
 import { ArrowUpRight, Mail, Phone, Instagram, Send, Loader2 } from "lucide-react";
 
 function FormInput({ label, name, type = "text", value, onChange, required, textarea = false }) {
@@ -61,9 +62,8 @@ function FormInput({ label, name, type = "text", value, onChange, required, text
     );
 }
 
-import { AnimatePresence } from "framer-motion";
-
 export default function Contact() {
+    const shouldReduceMotion = useReducedMotion();
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -72,11 +72,19 @@ export default function Contact() {
     const [status, setStatus] = useState("idle");
     const containerRef = useRef(null);
 
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    });
+
+    const watermarkY = useSectionParallax(scrollYProgress, shouldReduceMotion ? [0, 0] : [-40, 60]);
+
     // Mouse Spotlight Effect
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
 
     function handleMouseMove({ currentTarget, clientX, clientY }) {
+        if (shouldReduceMotion) return;
         let { left, top } = currentTarget.getBoundingClientRect();
         mouseX.set(clientX - left);
         mouseY.set(clientY - top);
@@ -108,13 +116,16 @@ export default function Contact() {
     };
 
     return (
-        <section id="contact" className="py-32 bg-[#050505] relative overflow-hidden">
+        <section ref={containerRef} id="contact" className="py-32 bg-[#050505] relative overflow-hidden">
             {/* Background Text */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full select-none pointer-events-none z-0">
+            <motion.div 
+                style={{ y: shouldReduceMotion ? 0 : watermarkY }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full select-none pointer-events-none z-0"
+            >
                 <h1 className="text-[18vw] font-bold text-white/[0.035] text-center tracking-tighter leading-none uppercase">
                     CONTACT
                 </h1>
-            </div>
+            </motion.div>
 
             {/* Ambient Lighting */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[200px] pointer-events-none opacity-30" />

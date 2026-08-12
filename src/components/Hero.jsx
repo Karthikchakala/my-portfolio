@@ -1,34 +1,58 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { ArrowUpRight, Download } from "lucide-react";
+import { useParallax } from "../hooks/useParallax";
 
 export default function Hero() {
+    const shouldReduceMotion = useReducedMotion();
+    const watermarkY = useParallax([0, 1000], shouldReduceMotion ? [0, 0] : [0, 120]);
+    const profileY = useParallax([0, 1000], shouldReduceMotion ? [0, 0] : [0, -60]);
+
+
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.15,
-                delayChildren: 0.2
+                staggerChildren: 0.14,
+                delayChildren: 0.1
             }
         }
     };
 
+    // MinimalGoods-style: text lines masked and sliding up from clipPath
     const itemVariants = {
-        hidden: { opacity: 0, y: 20, filter: "blur(5px)" },
-        visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 300, damping: 24 } }
+        hidden: { 
+            opacity: 0, 
+            y: shouldReduceMotion ? 0 : 40, 
+            clipPath: shouldReduceMotion ? "none" : "inset(0 0 100% 0)"
+        },
+        visible: { 
+            opacity: 1, 
+            y: 0, 
+            clipPath: "inset(0 0 0% 0)",
+            transition: { 
+                type: "spring", 
+                stiffness: 180, 
+                damping: 20,
+                mass: 0.8
+            } 
+        }
     };
 
     return (
         <section id="hero" className="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden bg-[#050505]">
             {/* Background Text & Premium Orbs */}
-            <div className="absolute top-20 left-1/2 -translate-x-1/2 w-full select-none pointer-events-none z-0">
+            <motion.div 
+                style={{ y: shouldReduceMotion ? 0 : watermarkY }}
+                className="absolute top-20 left-1/2 -translate-x-1/2 w-full select-none pointer-events-none z-0"
+            >
                 <h1 className="text-[14vw] font-bold text-white/[0.035] text-center tracking-[0.15em] leading-none uppercase">
                     DEVELOPER
                 </h1>
-            </div>
+            </motion.div>
             
             {/* Subtle animated background orbs */}
             <motion.div 
@@ -83,6 +107,7 @@ export default function Hero() {
                 </motion.div>
 
                 <motion.div
+                    style={{ y: shouldReduceMotion ? 0 : profileY }}
                     initial={{ opacity: 0, scale: 0.9, filter: "blur(20px)" }}
                     animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                     transition={{ duration: 1.2, ease: "easeInOut", delay: 0.3 }}

@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Code, Layout, Server, Database } from "lucide-react";
+import { useParallax } from "../hooks/useParallax";
 
 const services = [
     {
@@ -50,14 +51,20 @@ const services = [
 
 
 export default function Services() {
+    const shouldReduceMotion = useReducedMotion();
+    const watermarkY = useParallax([600, 2200], shouldReduceMotion ? [0, 0] : [-40, 80]);
+
     return (
         <section id="services" className="py-20 bg-[#050505] relative overflow-hidden">
             {/* Background Text */}
-            <div className="absolute top-20 right-0 w-full select-none pointer-events-none z-0">
+            <motion.div 
+                style={{ y: shouldReduceMotion ? 0 : watermarkY }}
+                className="absolute top-20 right-0 w-full select-none pointer-events-none z-0"
+            >
                 <h1 className="text-[15vw] font-bold text-white/[0.035] text-right tracking-wider leading-none pr-10">
                     ENGINEER
                 </h1>
-            </div>
+            </motion.div>
 
             <div className="container mx-auto px-6 relative z-10">
                 <motion.div
@@ -86,9 +93,10 @@ export default function Services() {
                             key={index}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
+                            whileHover={shouldReduceMotion ? {} : { y: -8, scale: 1.02 }}
+                            transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
                             viewport={{ once: true, margin: "-50px" }}
-                            className="bg-[#0a0a0a] border border-white/5 p-8 rounded-3xl hover:border-white/20 transition-all duration-500 group hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] relative overflow-hidden flex flex-col h-full"
+                            className="bg-[#0a0a0a] border border-white/5 p-8 rounded-3xl hover:border-white/20 transition-all duration-300 group hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] relative overflow-hidden flex flex-col h-full cursor-default"
                         >
                             {/* Subtle Shine Effect */}
                             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 z-0 pointer-events-none bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-[100%] group-hover:animate-shine" />

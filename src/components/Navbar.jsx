@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, useReducedMotion } from "framer-motion";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { useLenis } from "./SmoothScroll";
@@ -15,18 +15,19 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+    const shouldReduceMotion = useReducedMotion();
     const [isOpen, setIsOpen] = useState(false);
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const lenis = useLenis();
     const { scrollY } = useScroll();
 
     // Scroll-based animations for the dock
-    const dockScale = useTransform(scrollY, [0, 100], [1, 0.95]);
-    const dockY = useTransform(scrollY, [0, 100], [24, 16]);
-    const dockBlur = useTransform(scrollY, [0, 100], [8, 20]);
-    const dockOpacity = useTransform(scrollY, [0, 100], [1, 0.98]);
+    // At rest: full size. On scroll: shrinks + moves up slightly
+    const dockScale = useTransform(scrollY, [0, 150], [1, 0.82]);
+    const dockY = useTransform(scrollY, [0, 150], [0, -6]);
+    const dockOpacity = useTransform(scrollY, [0, 150], [1, 0.92]);
 
-    const springConfig = { stiffness: 300, damping: 30 };
+    const springConfig = { stiffness: 260, damping: 28 };
     const springScale = useSpring(dockScale, springConfig);
     const springY = useSpring(dockY, springConfig);
     
@@ -36,16 +37,17 @@ export default function Navbar() {
     const activeIndex = navLinks.findIndex(link => link.href.replace('#', '') === activeSection);
 
     return (
-        <div className="fixed top-0 left-0 w-full z-50 pointer-events-none flex justify-center p-6">
+        <div className="fixed top-0 left-0 w-full z-50 pointer-events-none flex justify-center pt-6">
             <motion.nav
                 initial={{ y: -100, opacity: 0, filter: "blur(10px)" }}
                 animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                transition={{ type: "spring", stiffness: 200, damping: 24, delay: 0.1 }}
                 style={{ 
-                    y: springY, 
-                    scale: springScale,
+                    y: shouldReduceMotion ? 0 : springY, 
+                    scale: shouldReduceMotion ? 1 : springScale,
                     opacity: dockOpacity
                 }}
-                className="pointer-events-auto relative flex items-center gap-2 px-3 py-2 rounded-full bg-black/40 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] group"
+                className="pointer-events-auto relative flex items-center gap-3 px-5 py-3 rounded-full bg-black/50 backdrop-blur-xl border border-white/10 shadow-[0_8px_40px_rgba(0,0,0,0.6)] group"
             >
                 {/* Ambient Glow Diffusion */}
                 <div className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/[0.02] transition-colors duration-500 pointer-events-none" />
@@ -53,14 +55,14 @@ export default function Navbar() {
                 {/* CK Logo */}
                 <Link 
                     href="/" 
-                    className="relative flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white font-bold text-sm tracking-tighter hover:bg-white/10 hover:border-white/20 transition-all duration-300 mr-2 shadow-inner group/logo"
+                    className="relative flex items-center justify-center w-11 h-11 rounded-full bg-white/5 border border-white/10 text-white font-bold text-sm tracking-tighter hover:bg-white/10 hover:border-white/20 transition-all duration-300 mr-1 shadow-inner group/logo"
                 >
                     <span className="relative z-10 group-hover/logo:scale-110 transition-transform">CK</span>
                     <div className="absolute inset-0 rounded-full bg-white/5 opacity-0 group-hover/logo:opacity-100 blur-md transition-opacity" />
                 </Link>
 
                 {/* Navigation Links */}
-                <div className="hidden md:flex items-center relative gap-1">
+                <div className="hidden md:flex items-center relative gap-1.5">
                     {/* Active/Hover Pill Indicator */}
                     <AnimatePresence>
                         {(hoveredIndex !== null || activeIndex !== -1) && (
@@ -85,7 +87,7 @@ export default function Navbar() {
                                 href={link.href}
                                 onMouseEnter={() => setHoveredIndex(idx)}
                                 onMouseLeave={() => setHoveredIndex(null)}
-                                className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 z-10 rounded-full ${
+                                className={`relative px-5 py-2.5 text-sm font-medium transition-all duration-300 z-10 rounded-full ${
                                     isActive ? 'text-white' : 'text-gray-400 hover:text-white'
                                 }`}
                             >
@@ -109,7 +111,7 @@ export default function Navbar() {
                 <div className="hidden md:block">
                     <Link 
                         href="#contact" 
-                        className="group relative inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold text-white bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 overflow-hidden"
+                        className="group relative inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 overflow-hidden"
                     >
                         <span className="relative z-10">Let&apos;s Talk</span>
                         <ArrowUpRight size={14} className="relative z-10 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

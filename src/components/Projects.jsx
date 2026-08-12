@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useState, useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform, useScroll, useReducedMotion } from "framer-motion";
+import { useSectionParallax } from "../hooks/useParallax";
 import { ArrowUpRight, Github, Cpu, Layers, Zap, ShieldCheck } from "lucide-react";
 import ProjectCarousel from "./ProjectCarousel";
 
@@ -99,17 +100,31 @@ const projects = [
     }
 ];
 
-function ProjectCard({ project, index }) {
+function ProjectCard({ project, index, scrollProgress }) {
+    const shouldReduceMotion = useReducedMotion();
     const x = useMotionValue(0);
     const y = useMotionValue(0);
 
     const mouseXSpring = useSpring(x);
     const mouseYSpring = useSpring(y);
 
-    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
-    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
+    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["6deg", "-6deg"]);
+    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-6deg", "6deg"]);
+
+    // 3-tier asymmetric parallax — spring-smoothed (like GSAP scrub:1)
+    const tier = (index % 3);
+    const parallaxRanges = [
+        [-15, 15],   // tier 0 — gentle
+        [30, -30],   // tier 1 — medium
+        [50, -50],   // tier 2 — deep
+    ];
+    const yParallax = useSectionParallax(
+        scrollProgress,
+        shouldReduceMotion ? [0, 0] : parallaxRanges[tier]
+    );
 
     function handleMouseMove(e) {
+        if (shouldReduceMotion) return;
         const rect = e.currentTarget.getBoundingClientRect();
         const width = rect.width;
         const height = rect.height;
@@ -128,14 +143,20 @@ function ProjectCard({ project, index }) {
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: index * 0.1 }}
+            whileHover={shouldReduceMotion ? {} : { y: -10, scale: 1.01 }}
+            transition={{ duration: 0.8, delay: index * 0.08 }}
             viewport={{ once: true, margin: "-50px" }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-            className="group relative rounded-[2.5rem] bg-[#0a0a0a] border border-white/[0.03] hover:border-white/[0.1] transition-all duration-700 flex flex-col h-full shadow-2xl overflow-hidden"
+            style={{ 
+                y: shouldReduceMotion ? 0 : yParallax, 
+                rotateX: shouldReduceMotion ? 0 : rotateX, 
+                rotateY: shouldReduceMotion ? 0 : rotateY, 
+                transformStyle: "preserve-3d" 
+            }}
+            className="group relative rounded-[2.5rem] bg-[#0a0a0a] border border-white/[0.03] hover:border-white/[0.1] transition-colors duration-500 flex flex-col h-full shadow-2xl overflow-hidden cursor-default"
         >
             {/* Gradient Glow */}
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/0 via-white/[0.03] to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl pointer-events-none" />
@@ -239,21 +260,33 @@ function ProjectCard({ project, index }) {
 }
 
 export default function Projects() {
+    const shouldReduceMotion = useReducedMotion();
     const [filter, setFilter] = useState("All");
     const categories = ["All", "Backend", "Full-Stack", "AI", "Real-Time"];
+    const containerRef = useRef(null);
+
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    });
+
+    const watermarkY = useSectionParallax(scrollYProgress, shouldReduceMotion ? [0, 0] : [-60, 100]);
 
     const filteredProjects = filter === "All" 
         ? projects 
         : projects.filter(p => p.category === filter);
 
     return (
-        <section id="projects" className="py-32 bg-[#050505] relative overflow-hidden">
+        <section ref={containerRef} id="projects" className="py-32 bg-[#050505] relative overflow-hidden">
             {/* Background Text */}
-            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full select-none pointer-events-none z-0">
+            <motion.div 
+                style={{ y: shouldReduceMotion ? 0 : watermarkY }}
+                className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full select-none pointer-events-none z-0"
+            >
                 <h1 className="text-[18vw] font-bold text-white/[0.035] text-center tracking-tighter leading-none uppercase">
                     PROJECTS
                 </h1>
-            </div>
+            </motion.div>
 
             {/* Ambient Background */}
             <div className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none">
@@ -299,7 +332,7 @@ export default function Projects() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                     {filteredProjects.map((project, index) => (
-                        <ProjectCard key={project.title} project={project} index={index} />
+                        <ProjectCard key={project.title} project={project} index={index} scrollProgress={scrollYProgress} />
                     ))}
                 </div>
             </div>

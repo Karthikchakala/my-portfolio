@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { useParallax } from "../hooks/useParallax";
 
 const education = [
     {
@@ -30,14 +31,20 @@ const education = [
 ];
 
 export default function Education() {
+    const shouldReduceMotion = useReducedMotion();
+    const watermarkY = useParallax([1200, 2800], shouldReduceMotion ? [0, 0] : [-30, 70]);
+
     return (
         <section id="education" className="py-20 bg-[#050505] relative overflow-hidden">
             {/* Background Text */}
-            <div className="absolute top-20 right-0 w-full select-none pointer-events-none z-0">
-                <h1 className="text-[15vw] font-bold text-white/[0.03] text-right tracking-wider leading-none pr-10">
+            <motion.div 
+                style={{ y: shouldReduceMotion ? 0 : watermarkY }}
+                className="absolute top-20 right-0 w-full select-none pointer-events-none z-0"
+            >
+                <h1 className="text-[15vw] font-bold text-white/[0.035] text-right tracking-wider leading-none pr-10">
                     EDUCATION
                 </h1>
-            </div>
+            </motion.div>
 
             <div className="container mx-auto px-6 relative z-10">
                 <motion.div
@@ -59,7 +66,11 @@ export default function Education() {
                 <div className="hidden md:block relative h-[400px] w-full max-w-6xl mx-auto">
                     {/* SVG Curve */}
                     <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
-                        <path
+                        <motion.path
+                            initial={{ pathLength: 0 }}
+                            whileInView={{ pathLength: 1 }}
+                            transition={{ duration: 1.5, ease: "easeInOut" }}
+                            viewport={{ once: true }}
                             d="M 50 250 C 200 250, 250 100, 400 100 C 550 100, 600 200, 750 200 C 900 200, 950 50, 1100 50"
                             fill="none"
                             stroke="url(#gradient)"

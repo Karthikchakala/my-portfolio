@@ -1,45 +1,68 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef } from "react";
 import Lenis from "lenis";
+import { useMotionValue } from "framer-motion";
 
 const LenisContext = createContext(null);
+const ScrollContext = createContext(null);
 
 export const useLenis = () => useContext(LenisContext);
+export const useSmoothScroll = () => useContext(ScrollContext);
 
 export default function SmoothScroll({ children }) {
-    const [lenis, setLenis] = useState(null);
+    const scrollY = useMotionValue(0);
+    const lenisRef = useRef(null);
 
     useEffect(() => {
-        const lenisInstance = new Lenis({
-            duration: 1.2,
+        const lenis = new Lenis({
+            // lerp = linear interpolation strength (0.0–1.0)
+            // Lower = more lag = feels heavier & smoother (like MinimalGoods)
+            lerp: 0.07,
+            smoothWheel: true,
+            wheelMultiplier: 1.0,
+            touchMultiplier: 1.8,
+            infinite: false,
+            orientation: "vertical",
+            gestureOrientation: "vertical",
+            normalizeWheel: false,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: "vertical",
-            gestureDirection: "vertical",
-            smooth: true,
-            mouseMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
         });
 
-        setLenis(lenisInstance);
+        lenisRef.current = lenis;
 
-        function raf(time) {
-            lenisInstance.raf(time);
-            requestAnimationFrame(raf);
+        if (typeof window !== "undefined") {
+            window.lenis = lenis;
         }
 
-        requestAnimationFrame(raf);
+        // Push scroll position into a MotionValue so springs can follow it
+        lenis.on("scroll", ({ scroll }) => {
+            scrollY.set(scroll);
+        });
+
+        let animationFrameId;
+        function raf(time) {
+            lenis.raf(time);
+            animationFrameId = requestAnimationFrame(raf);
+        }
+
+        animationFrameId = requestAnimationFrame(raf);
 
         return () => {
-            lenisInstance.destroy();
-            setLenis(null);
+            cancelAnimationFrame(animationFrameId);
+            lenis.destroy();
+            lenisRef.current = null;
+            if (typeof window !== "undefined") {
+                delete window.lenis;
+            }
         };
-    }, []);
+    }, [scrollY]);
 
     return (
-        <LenisContext.Provider value={lenis}>
-            {children}
+        <LenisContext.Provider value={lenisRef.current}>
+            <ScrollContext.Provider value={scrollY}>
+                {children}
+            </ScrollContext.Provider>
         </LenisContext.Provider>
     );
 }
