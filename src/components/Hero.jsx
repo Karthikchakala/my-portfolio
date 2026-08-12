@@ -74,7 +74,6 @@ export default function Hero() {
                             href="/resume_CK.pdf"
                             target="_blank"
                             rel="noopener noreferrer"
-                            download="resume_CK.pdf"
                             className="group bg-transparent text-white px-8 py-4 rounded-full font-medium flex items-center gap-2 border border-white/20 hover:bg-white/10 hover:border-white/50 transition-all transform hover:scale-105"
                         >
                             Resume
