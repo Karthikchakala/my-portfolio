@@ -128,14 +128,6 @@ export default function Contact() {
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
                     >
-                        <div className="flex items-center gap-3 mb-8">
-                            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 shadow-lg">
-                                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                                <span className="text-orange-500 text-[10px] font-bold uppercase tracking-[0.3em]">
-                                    Currently available for opportunities
-                                </span>
-                            </div>
-                        </div>
                         
                         <h2 className="text-6xl md:text-7xl font-bold text-white tracking-tighter mb-8 leading-[0.9]">
                             Let&apos;s build <br />
