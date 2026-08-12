@@ -7,9 +7,9 @@ const services = [
     {
         title: "Backend Architecture",
         icon: Server,
-        tags: ["Node.js", "Express", "Redis", "Docker"],
+        tags: ["HLD", "LLD", "OOPS", "Node.js", "Docker"],
         description:
-            "Designing scalable backend systems focusing on microservices, distributed architecture, and secure RESTful APIs.",
+            "Designing scalable backend systems focusing on microservices, high-level design (HLD), low-level design (LLD), and secure RESTful APIs.",
     },
     {
         title: "API Engineering",

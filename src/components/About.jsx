@@ -41,7 +41,7 @@ export default function About() {
                                 { title: "Backend Systems", desc: "Architecting robust server-side logic and microservices." },
                                 { title: "API Engineering", desc: "Designing scalable, secure, and documented RESTful APIs." },
                                 { title: "Real-Time Data", desc: "Leveraging WebSockets for low-latency live interactions." },
-                                { title: "System Design", desc: "Optimizing database schemas and high-availability patterns." },
+                                { title: "System Design (HLD & LLD)", desc: "Applying OOPS principles, Low-Level Design (LLD), and scalable High-Level Design (HLD) patterns." },
                             ].map((item, i) => (
                                 <motion.div
                                     key={i}

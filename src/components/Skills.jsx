@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Cpu, Network, Layers } from "lucide-react";
 import { 
     SiJavascript, SiPython, SiCplusplus, SiPostgresql,
     SiReact, SiNextdotjs, SiTailwindcss, SiRedux,
@@ -12,9 +13,14 @@ import {
     SiVite, SiSocketdotio
 } from "react-icons/si";
 
-const skillCategories = ["All", "Frontend", "Backend", "Database", "Tools", "Languages"];
+const skillCategories = ["All", "Core CS", "Frontend", "Backend", "Database", "Tools", "Languages"];
 
 const allSkills = [
+    // Core CS & System Design
+    { name: "OOPS", category: "Core CS", icon: Cpu },
+    { name: "HLD", category: "Core CS", icon: Network },
+    { name: "LLD", category: "Core CS", icon: Layers },
+
     // Languages
     { name: "JavaScript", category: "Languages", icon: SiJavascript },
     { name: "TypeScript", category: "Languages", icon: SiTypescript },
