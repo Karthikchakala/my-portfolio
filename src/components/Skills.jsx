@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Cpu, Network, Layers } from "lucide-react";
+import { Cpu, Network, Layers, ShieldCheck, Workflow, GitBranch, Webhook, TrendingUp, Zap, Database } from "lucide-react";
+import { FaJava } from "react-icons/fa6";
 import { 
-    SiJavascript, SiPython, SiCplusplus, SiPostgresql,
+    SiJavascript, SiPython, SiCplusplus, SiC, SiPostgresql,
     SiReact, SiNextdotjs, SiTailwindcss, SiRedux,
     SiHtml5, SiNodedotjs, SiExpress, SiJsonwebtokens,
     SiMongodb, SiMysql, SiSqlite, SiSupabase,
@@ -13,19 +14,28 @@ import {
     SiVite, SiSocketdotio
 } from "react-icons/si";
 
-const skillCategories = ["All", "Core CS", "Frontend", "Backend", "Database", "Tools", "Languages"];
+const skillCategories = ["All", "System Design", "Frontend", "Backend", "Database", "Tools", "Languages"];
 
 const allSkills = [
-    // Core CS & System Design
-    { name: "OOPS", category: "Core CS", icon: Cpu },
-    { name: "HLD", category: "Core CS", icon: Network },
-    { name: "LLD", category: "Core CS", icon: Layers },
+    // System Design & Core CS
+    { name: "HLD", category: "System Design", icon: Network },
+    { name: "LLD", category: "System Design", icon: Layers },
+    { name: "OOPS", category: "System Design", icon: Cpu },
+    { name: "SOLID Principles", category: "System Design", icon: ShieldCheck },
+    { name: "Design Patterns", category: "System Design", icon: Workflow },
+    { name: "UML", category: "System Design", icon: GitBranch },
+    { name: "API Design", category: "System Design", icon: Webhook },
+    { name: "Scalability", category: "System Design", icon: TrendingUp },
+    { name: "Caching", category: "System Design", icon: Zap },
+    { name: "Database Design", category: "System Design", icon: Database },
 
     // Languages
     { name: "JavaScript", category: "Languages", icon: SiJavascript },
     { name: "TypeScript", category: "Languages", icon: SiTypescript },
     { name: "Python", category: "Languages", icon: SiPython },
     { name: "C++", category: "Languages", icon: SiCplusplus },
+    { name: "C", category: "Languages", icon: SiC },
+    { name: "Java", category: "Languages", icon: FaJava },
     
     // Frontend
     { name: "React", category: "Frontend", icon: SiReact },

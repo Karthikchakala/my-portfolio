@@ -50,10 +50,6 @@ export default function Hero() {
                     animate="visible"
                     className="relative z-10"
                 >
-                    <motion.div variants={itemVariants} className="inline-flex items-center gap-2 text-orange-500 font-medium tracking-wider mb-6 text-sm bg-white/10 border border-white/10 px-4 py-1.5 rounded-full w-fit shadow-lg backdrop-blur-md">
-                        <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]"></span>
-                        <span>Open to SDE Internships</span>
-                    </motion.div>
 
                     <motion.h1 variants={itemVariants} className="text-5xl md:text-[5.5rem] font-bold leading-[1.05] mb-8 text-white tracking-tight">
                         Hi, I&apos;m <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/30">Karthik Chakala.</span>
