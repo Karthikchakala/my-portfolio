@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowUpRight, Github, ExternalLink, Cpu, Layers, Zap, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, Github, Cpu, Layers, Zap, ShieldCheck } from "lucide-react";
 import ProjectCarousel from "./ProjectCarousel";
 
 const projects = [
@@ -19,8 +19,7 @@ const projects = [
             outcome: "Production-ready system capable of handling 1000+ concurrent healthcare sessions with sub-second latency."
         },
         images: ["/images/projects/hms.png"],
-        github: "https://github.com/Karthikchakala/HospitalManagement",
-        demo: "#"
+        github: "https://github.com/Karthikchakala/HospitalManagement"
     },
     {
         title: "Flight Fare Engine",
@@ -35,8 +34,7 @@ const projects = [
             outcome: "Delivered state-of-the-art fare accuracy, significantly outperforming baseline regression models."
         },
         images: ["/images/projects/flight.png"],
-        github: "https://github.com/Karthikchakala/Flight-Fare-Prediction",
-        demo: "#"
+        github: "https://github.com/Karthikchakala/Flight-Fare-Prediction"
     },
     {
         title: "Real-time LMS",
@@ -51,8 +49,7 @@ const projects = [
             outcome: "Scaled to support thousands of concurrent learners with instant data propagation across client instances."
         },
         images: ["/images/projects/learning.png"],
-        github: "https://github.com/Karthikchakala/course-mgmt-sys",
-        demo: "#"
+        github: "https://github.com/Karthikchakala/course-mgmt-sys"
     },
     {
         title: "Farm to Table",
@@ -67,8 +64,7 @@ const projects = [
             outcome: "Eliminated middle-tier inefficiencies, improving local agricultural ROI by optimized routing."
         },
         images: ["/images/projects/farm.png"],
-        github: "https://github.com/Karthikchakala/FarmToHome",
-        demo: "#"
+        github: "https://github.com/Karthikchakala/FarmToHome"
     },
     {
         title: "Tailor Flow",
@@ -84,7 +80,6 @@ const projects = [
         },
         images: ["/images/projects/learning.png"],
         github: "https://github.com/Karthikchakala/tailoring-app",
-        demo: "#",
         inProgress: true
     },
     {
@@ -100,8 +95,7 @@ const projects = [
             outcome: "Achieved near-perfect extraction accuracy (99%+) with zero human-perceivable visual degradation."
         },
         images: ["/images/projects/hms.png"],
-        github: "https://github.com/Karthikchakala/Image-Steganography",
-        demo: "#"
+        github: "https://github.com/Karthikchakala/Image-Steganography"
     }
 ];
 
@@ -165,11 +159,6 @@ function ProjectCard({ project, index }) {
                     <a href={project.github} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/5 backdrop-blur-md border border-white/10 text-white rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-all shadow-xl group/link">
                         <Github size={18} />
                     </a>
-                    {project.demo && (
-                        <a href={project.demo} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/5 backdrop-blur-md border border-white/10 text-white rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-all shadow-xl group/link">
-                            <ExternalLink size={18} />
-                        </a>
-                    )}
                 </div>
             </div>
 
